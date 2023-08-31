@@ -15,8 +15,22 @@ public class StopWatch implements ActionListener {
     int hours = 0;
     boolean started = false;
     String secondsString = String.format("%02d", seconds);
-    String minutesString = String.format("%2d", minutes);
-    String hoursString = String.format("%2d", hours);
+    String minutesString = String.format("%02d", minutes);
+    String hoursString = String.format("%02d", hours);
+
+    Timer timer = new Timer(1000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            elapsedTime += 1000;
+            hours = (elapsedTime / 3600000);
+            minutes = (elapsedTime / 60000) % 60;
+            seconds = (elapsedTime / 1000) % 60;
+            secondsString = String.format("%02d", seconds);
+            minutesString = String.format("%02d", minutes);
+            hoursString = String.format("%02d", hours);
+            timeLabel.setText(hoursString + ":" + minutesString + ":" + secondsString);
+        }
+    });
 
     StopWatch() {
 
@@ -50,10 +64,13 @@ public class StopWatch implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        if(e.getSource() == startButton) {
+            start();
+        }
     }
 
     void start() {
-
+    timer.start();
     }
 
     void stop() {
