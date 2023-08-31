@@ -18,18 +18,15 @@ public class StopWatch implements ActionListener {
     String minutesString = String.format("%02d", minutes);
     String hoursString = String.format("%02d", hours);
 
-    Timer timer = new Timer(1000, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            elapsedTime += 1000;
-            hours = (elapsedTime / 3600000);
-            minutes = (elapsedTime / 60000) % 60;
-            seconds = (elapsedTime / 1000) % 60;
-            secondsString = String.format("%02d", seconds);
-            minutesString = String.format("%02d", minutes);
-            hoursString = String.format("%02d", hours);
-            timeLabel.setText(hoursString + ":" + minutesString + ":" + secondsString);
-        }
+    Timer timer = new Timer(1000, e -> {
+        elapsedTime += 1000;
+        hours = (elapsedTime / 3600000);
+        minutes = (elapsedTime / 60000) % 60;
+        seconds = (elapsedTime / 1000) % 60;
+        secondsString = String.format("%02d", seconds);
+        minutesString = String.format("%02d", minutes);
+        hoursString = String.format("%02d", hours);
+        timeLabel.setText(hoursString + ":" + minutesString + ":" + secondsString);
     });
 
     StopWatch() {
@@ -76,6 +73,12 @@ public class StopWatch implements ActionListener {
                 stop();
             }
         }
+        if(e.getSource() == resetButton) {
+            started = false;
+            startButton.setText("Start");
+            reset();
+        }
+
     }
 
     void start() {
@@ -87,6 +90,15 @@ public class StopWatch implements ActionListener {
     }
 
     void reset() {
+        timer.stop();
+        elapsedTime = 0;
+        seconds = 0;
+        minutes = 0;
+        hours = 0;
 
+        secondsString = String.format("%02d", seconds);
+        minutesString = String.format("%02d", minutes);
+        hoursString = String.format("%02d", hours);
+        timeLabel.setText(hoursString + ":" + minutesString + ":" + secondsString);
     }
 }
