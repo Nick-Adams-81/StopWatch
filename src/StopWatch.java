@@ -61,20 +61,29 @@ public class StopWatch implements ActionListener {
 
         frame.setVisible(true);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(e.getSource() == startButton) {
-            start();
+        if (e.getSource() == startButton) {
+            if (!started) {
+                started = true;
+                startButton.setText("Stop");
+                start();
+            } else {
+                started = false;
+                startButton.setText("Start");
+                stop();
+            }
         }
     }
 
     void start() {
-    timer.start();
+        timer.start();
     }
 
     void stop() {
-
+        timer.stop();
     }
 
     void reset() {
